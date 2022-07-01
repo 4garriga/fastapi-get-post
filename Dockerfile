@@ -1,11 +1,10 @@
-FROM python:3.10
+FROM python:3.9-slim
 
-ENV PORT=8888
 WORKDIR /code
  
-ADD ./requirements.txt /code/requirements.txt
-ADD ./src /code/src
+COPY ./requirements.txt /code/requirements.txt
+COPY ./src /code/src
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-CMD ["uvicorn", "src.__main__:app", "--host", "0.0.0.0", "--port", $PORT]
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 src.main:app
