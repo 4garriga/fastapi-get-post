@@ -4,6 +4,6 @@ app = FastAPI()
 
 
 @app.get("/")
-def index() -> str:
+def index() -> dict:
     return {"key": "value"}
 
